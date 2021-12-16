@@ -6,7 +6,12 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    [SerializeField]
+    private Player player;
+    [SerializeField]
+    private Text playerMoneyText;
+
+    public static GameManager Instance;     // ΩÃ±€≈Ê
 
     private void Awake()
     {
@@ -23,6 +28,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(this);
+    }
+
+    private void Update()
+    {
+        playerMoneyText.text = Money.ToString(player.playerMoney);
     }
 
 
