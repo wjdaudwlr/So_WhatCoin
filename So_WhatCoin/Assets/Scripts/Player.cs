@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public ulong playerMoney = 0;
-    public ulong clickMoney = 10;
+    public ulong playerMoney;
+    public ulong clickMoney = 1;
+
 
     private void Awake()
     {
