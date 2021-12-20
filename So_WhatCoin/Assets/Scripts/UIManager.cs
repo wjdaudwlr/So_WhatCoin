@@ -27,7 +27,7 @@ public class UIManager : MonoBehaviour
         currentMenuNum = 0;
 
         menuButtons[currentMenuNum].Select();
-
+        menePanels[currentMenuNum].SetActive(true);
     }
 
     IEnumerator TapToStart()
