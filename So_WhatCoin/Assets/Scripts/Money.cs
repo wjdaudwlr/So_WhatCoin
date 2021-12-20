@@ -39,4 +39,6 @@ public class Money : MonoBehaviour
         }
         return sb.ToString();
     }
+
+
 }

@@ -15,16 +15,19 @@ public class UIManager : MonoBehaviour
     private Button[] menuButtons;
     [SerializeField]
     private GameObject[] menePanels;
+    [SerializeField]
+    private Color selectedColor;
 
     int currentMenuNum;                 // 현재 메뉴 번호
 
     private void Start()
     {
+        StartCoroutine(TapToStart());
+
         currentMenuNum = 0;
 
         menuButtons[currentMenuNum].Select();
-                
-        StartCoroutine(TapToStart());
+
     }
 
     IEnumerator TapToStart()
@@ -52,6 +55,7 @@ public class UIManager : MonoBehaviour
         menePanels[currentMenuNum].gameObject.SetActive(false);
         menePanels[clickButtonNum].gameObject.SetActive(true);
         
+
         currentMenuNum = clickButtonNum;
     }
 }

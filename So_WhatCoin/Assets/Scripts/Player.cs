@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-
+        clickMoney = 30;
     }
 
     private void Start()

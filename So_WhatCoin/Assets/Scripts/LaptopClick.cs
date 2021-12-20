@@ -36,8 +36,8 @@ public class LaptopClick : MonoBehaviour
         if (isclick)
             StartCoroutine(ClickEffect());
         player.playerMoney += player.clickMoney;
-        currentLaptopSprite = (currentLaptopSprite % (laptopImages.Length - 1)) + 1;
-        sptrieRenderer.sprite = laptopImages[currentLaptopSprite];
+        currentLaptopSprite = (currentLaptopSprite % (laptopImages.Length));
+        sptrieRenderer.sprite = laptopImages[currentLaptopSprite++];
     }
 
     private IEnumerator ClickEffect()
