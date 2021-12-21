@@ -16,8 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject[] menePanels;
     [SerializeField]
-    private Color selectedColor;
-
+    Queue<GameObject> UI_queue = new Queue<GameObject>();
+    
     int currentMenuNum;                 // 현재 메뉴 번호
 
     private void Start()
@@ -57,5 +57,16 @@ public class UIManager : MonoBehaviour
         
 
         currentMenuNum = clickButtonNum;
+    }
+
+    public void UI_appear(GameObject obj)
+    {
+        obj.SetActive(true);
+        UI_queue.Enqueue(obj);
+    }
+    public void UI_disappear()
+    {
+        GameObject obj = UI_queue.Dequeue();
+        obj.SetActive(false);
     }
 }

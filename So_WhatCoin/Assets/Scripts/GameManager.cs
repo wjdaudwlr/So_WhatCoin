@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private GameObject[] items;
     [SerializeField]
     private Button[] itemPurchaseButton;
-    Dictionary<string, Item> itemMap;
+    Dictionary<string, Item> itemMap = new Dictionary<string, Item>();
 
     private ulong typingSpeedUpgradeCost;
     private ulong typingSpeedUpgradeMoney;
@@ -34,8 +34,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        player.LoadPlayerDataToJson();
-        if(Instance == null)
+        StartCoroutine(setData());
+
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -45,17 +46,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
 
     private void Start()
     {
         DontDestroyOnLoad(this);
-        typingSpeedUpgradeCost = 1000;
-        typingSpeedUpgradeMoney = 15;
 
-        typingSpeedUpgradeCostText.text = $"<size=32>" + string.Format("{0:n0}", typingSpeedUpgradeCost) + " 원</size>\n\n+ " + string.Format("{0:n0}", typingSpeedUpgradeMoney) + "GOLD";
-
-        itemMap = new Dictionary<string, Item>();
-        itemMap.Add("frog", items[0].GetComponent<Item>());
+        InitTypingSpeedUpgrade();
+        
     }
 
     private void Update()
@@ -70,6 +68,36 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void InitTypingSpeedUpgrade()
+    {
+        typingSpeedUpgradeCost = 1000;
+        typingSpeedUpgradeMoney = 15;
+
+        typingSpeedLevelText.text = "Lvl " + player.playerData.upgradeLevelDict["typingSpeed"];
+        for(int i = 1; i< player.playerData.upgradeLevelDict["typingSpeed"]; i++)
+        {
+            typingSpeedUpgradeCost += typingSpeedUpgradeCost / 10;
+            typingSpeedUpgradeMoney += 3;
+        }
+        typingSpeedUpgradeCostText.text = $"<size=32>" + string.Format("{0:n0}", typingSpeedUpgradeCost) + " 원</size>\n\n+ " + string.Format("{0:n0}", typingSpeedUpgradeMoney) + "GOLD";
+    }
+
+    private void InitItem()
+    {
+        foreach (string key in player.playerData.itemDict.Keys)
+        {
+            Debug.Log(key);
+            if (player.playerData.itemDict[key])
+            {
+                Item item = itemMap[key];
+                item.gameObject.SetActive(true);
+                itemPurchaseButton[item.number].interactable = false;
+                itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=55>구매완료</size>";
+            }
+        }
+    }
+
+
     public void TypingSpeedUpgrade()
     {
         if (player.playerData.playerMoney < typingSpeedUpgradeCost) return;
@@ -80,23 +108,25 @@ public class GameManager : MonoBehaviour
         player.playerData.clickMoney += typingSpeedUpgradeMoney;
         typingSpeedUpgradeMoney += 2;
 
-        player.playerData.typingSpeedLevel += 1;
-        typingSpeedLevelText.text = "Lvl " + player.playerData.typingSpeedLevel;
+        player.playerData.upgradeLevelDict["typingSpeed"] += 1;
+        typingSpeedLevelText.text = "Lvl " + player.playerData.upgradeLevelDict["typingSpeed"];
 
         typingSpeedUpgradeCostText.text = $"<size=32>" + string.Format("{0:n0}", typingSpeedUpgradeCost) +  " 원</size>\n\n+ " + string.Format("{0:n0}", typingSpeedUpgradeMoney) +  "GOLD";
     }
 
-    public void ItemPurchase(string name)
+    public void ItemPurchase(string itemName)   
     {
-        Item item = itemMap[name];
+        Item item = itemMap[itemName];
         if (player.playerData.playerMoney < item.cost) return;
+
         player.playerData.automatcIncome += item.automatcIncome;
         player.playerData.playerMoney -= item.cost;
+
         item.gameObject.SetActive(true);
         itemPurchaseButton[item.number].interactable = false;
         itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=55>구매완료</size>";
+        player.playerData.itemDict[itemName] = true;
     }
-
 
     void OnApplicationQuit()
     {
@@ -104,4 +134,21 @@ public class GameManager : MonoBehaviour
         player.SavePlayerDataToJson();
     }
 
+    [ContextMenu("INIT")]
+    public void InitUpgrade()
+    {
+        player.playerData.upgradeLevelDict["typingSpeed"] = 1;
+    }
+
+
+    IEnumerator setData()
+    {
+        player.LoadPlayerDataToJson();
+
+        itemMap.Add("frog", items[0].GetComponent<Item>());
+        itemMap.Add("monsta", items[1].GetComponent<Item>());
+
+        yield return new WaitForSeconds(0.2f);
+        InitItem();
+    }
 }
