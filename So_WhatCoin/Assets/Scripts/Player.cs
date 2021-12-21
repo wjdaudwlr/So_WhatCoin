@@ -39,5 +39,6 @@ public class PlayerData
     public uint automatcIncome = 0;
     public Dictionary<string, int> upgradeLevelDict;
     public Dictionary<string, bool> itemDict;
+    public Dictionary<string, int> coinDict;
 }
 

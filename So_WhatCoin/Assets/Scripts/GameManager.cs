@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text playerMoneyText;
     [SerializeField]
-    private Player player;
+    public Player player;
 
     [Header("UPGRADE")]
     [SerializeField]
@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Button[] itemPurchaseButton;
     Dictionary<string, Item> itemMap = new Dictionary<string, Item>();
+
+    [SerializeField]
+    private CoinManager coinManager;
 
     private ulong typingSpeedUpgradeCost;
     private ulong typingSpeedUpgradeMoney;
@@ -50,10 +53,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
-
         InitTypingSpeedUpgrade();
-        
+
+        DontDestroyOnLoad(this);
     }
 
     private void Update()
@@ -117,10 +119,10 @@ public class GameManager : MonoBehaviour
     public void ItemPurchase(string itemName)   
     {
         Item item = itemMap[itemName];
-        if (player.playerData.playerMoney < item.cost) return;
+        if (player.playerData.playerMoney < item.price) return;
 
         player.playerData.automatcIncome += item.automatcIncome;
-        player.playerData.playerMoney -= item.cost;
+        player.playerData.playerMoney -= item.price;
 
         item.gameObject.SetActive(true);
         itemPurchaseButton[item.number].interactable = false;
@@ -128,17 +130,9 @@ public class GameManager : MonoBehaviour
         player.playerData.itemDict[itemName] = true;
     }
 
-    void OnApplicationQuit()
-    {
-        /* 앱이 종료 될 때 처리 */
-        player.SavePlayerDataToJson();
-    }
 
-    [ContextMenu("INIT")]
-    public void InitUpgrade()
-    {
-        player.playerData.upgradeLevelDict["typingSpeed"] = 1;
-    }
+    
+
 
 
     IEnumerator setData()
@@ -148,7 +142,16 @@ public class GameManager : MonoBehaviour
         itemMap.Add("frog", items[0].GetComponent<Item>());
         itemMap.Add("monsta", items[1].GetComponent<Item>());
 
+
         yield return new WaitForSeconds(0.2f);
+        coinManager.InitCoin();
         InitItem();
     }
+
+    void OnApplicationQuit()
+    {
+        /* 앱이 종료 될 때 처리 */
+        player.SavePlayerDataToJson();
+    }
+
 }
