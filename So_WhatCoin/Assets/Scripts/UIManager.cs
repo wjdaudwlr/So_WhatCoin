@@ -17,7 +17,9 @@ public class UIManager : MonoBehaviour
     private GameObject[] menePanels;
     [SerializeField]
     Queue<GameObject> UI_queue = new Queue<GameObject>();
-    
+    [SerializeField]
+    private Text myInformationText;
+
     int currentMenuNum;                 // 현재 메뉴 번호
 
     private void Start()
@@ -61,6 +63,9 @@ public class UIManager : MonoBehaviour
 
     public void UI_appear(GameObject obj)
     {
+        if (UI_queue.Count != 0) 
+            UI_disappear();
+        InitProfile();
         obj.SetActive(true);
         UI_queue.Enqueue(obj);
     }
@@ -69,4 +74,14 @@ public class UIManager : MonoBehaviour
         GameObject obj = UI_queue.Dequeue();
         obj.SetActive(false);
     }
+
+    private void InitProfile()
+    {
+        myInformationText.text = "<size=50> 이름 : " + 
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.name) + "</size>\n\n<size=45> 돈 : " + 
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.playerMoney) + "</size>\n\n터치 당 골드 : "+ 
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.clickMoney) + "\n초당 골드      : " + 
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.automatcIncome); 
+    }
+
 }
