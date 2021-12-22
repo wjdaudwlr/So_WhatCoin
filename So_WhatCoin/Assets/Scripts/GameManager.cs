@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     private GameObject[] items;
     [SerializeField]
     private Button[] itemPurchaseButton;
-    Dictionary<string, Item> itemMap = new Dictionary<string, Item>();
+    public Dictionary<string, Item> itemMap = new Dictionary<string, Item>();
 
     [SerializeField]
     private CoinManager coinManager;
@@ -143,6 +143,8 @@ public class GameManager : MonoBehaviour
         itemMap.Add("frog", items[0].GetComponent<Item>());
         itemMap.Add("monsta", items[1].GetComponent<Item>());
         itemMap.Add("doge", items[2].GetComponent<Item>());
+        itemMap.Add("keyboard", items[3].GetComponent<Item>());
+        itemMap.Add("statikk", items[4].GetComponent<Item>());
 
         yield return new WaitForSeconds(0.2f);
         coinManager.InitCoin();

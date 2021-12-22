@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LaptopClick : MonoBehaviour
@@ -18,14 +19,22 @@ public class LaptopClick : MonoBehaviour
     [SerializeField]
     private GameObject clickEffect;
 
+    [Header("Sound")]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip[] keyboardSound;
+
     private SpriteRenderer sptrieRenderer;
 
     public bool isclick = true;
 
     private int currentLaptopSprite = 0;    // 현재 노트북 이미지
 
+    private float soundTime= 0;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         sptrieRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -35,21 +44,58 @@ public class LaptopClick : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (isclick)
+        {
+            soundTime += Time.deltaTime;
+            if (soundTime > 1)
+                audioSource.Stop();
+        }
+        else
+            soundTime = 0;
+    }
+
     public void ClickToPlayer()
     {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.clip = keyboardSound[Random.Range(0, 3)];
+            audioSource.Play();
+        }
+
         if (isclick)
             StartCoroutine(ClickEffect());
         GameManager.Instance.player.playerData.playerMoney += GameManager.Instance.player.playerData.clickMoney;
         currentLaptopSprite = (currentLaptopSprite % (laptopImages.Length));
         sptrieRenderer.sprite = laptopImages[currentLaptopSprite++];
 
-        Instantiate(clickEffect, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0,0,0.5f), Quaternion.identity);
 
         if (GameManager.Instance.player.playerData.itemDict["doge"])
         {
             GameObject moneyText = Instantiate(clickMoneyText);
             moneyText.transform.position = clickPos.position + new Vector3(Random.Range(-1.1f, 1.1f), Random.Range(-0.2f, 0.2f), 0);
-            moneyText.GetComponent<ClickMoneyText>().money = GameManager.Instance.player.playerData.clickMoney;
+            ClickMoneyText clickMoneyTextCom = moneyText.GetComponent<ClickMoneyText>();
+            clickMoneyTextCom.SetUp();
+
+            if (GameManager.Instance.player.playerData.itemDict["statikk"])
+            {
+                if(Random.Range(0,100) < 7)
+                {
+                    clickMoneyTextCom.text.color = new Color(255, 0, 0);
+                    clickMoneyTextCom.text.fontSize = 4f;
+                    clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney * 2;
+                    GameManager.Instance.player.playerData.playerMoney += GameManager.Instance.player.playerData.clickMoney;
+                }
+                else
+                    clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
+            }
+            else
+                clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
+        }
+        if (GameManager.Instance.player.playerData.itemDict["keyboard"])
+        {
+            Instantiate(clickEffect, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 0.5f), Quaternion.identity);
         }
     }
 

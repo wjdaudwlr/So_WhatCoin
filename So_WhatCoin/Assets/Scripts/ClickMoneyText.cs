@@ -8,16 +8,18 @@ public class ClickMoneyText : MonoBehaviour
     public float moveSpeed;
     public float alphaSpeed;
     private float destroyTime;
-    TextMeshPro text;
+    public TextMeshPro text;
     Color alpha;
     public ulong money;
 
-    // Start is called before the first frame update
-    void Start()
+    public void SetUp()
+    {
+        text = GetComponent<TextMeshPro>();
+    }
+
+    public void Start()
     {
         destroyTime = 1.5f;
-            
-        text = GetComponent<TextMeshPro>();
         alpha = text.color;
         text.text = string.Format("{0:n0}", money);
         Invoke("DestroyObject", destroyTime);

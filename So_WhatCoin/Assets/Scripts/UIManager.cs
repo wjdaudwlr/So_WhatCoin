@@ -19,6 +19,8 @@ public class UIManager : MonoBehaviour
     Queue<GameObject> UI_queue = new Queue<GameObject>();
     [SerializeField]
     private Text myInformationText;
+    [SerializeField]
+    private GameObject[] profileImages;
 
     int currentMenuNum;                 // 현재 메뉴 번호
 
@@ -77,11 +79,20 @@ public class UIManager : MonoBehaviour
 
     private void InitProfile()
     {
-        myInformationText.text = "<size=50> 이름 : " + 
-            string.Format("{0:n0}", GameManager.Instance.player.playerData.name) + "</size>\n\n<size=45> 돈 : " + 
-            string.Format("{0:n0}", GameManager.Instance.player.playerData.playerMoney) + "</size>\n\n터치 당 골드 : "+ 
-            string.Format("{0:n0}", GameManager.Instance.player.playerData.clickMoney) + "\n초당 골드      : " + 
-            string.Format("{0:n0}", GameManager.Instance.player.playerData.automatcIncome); 
-    }
+        int profileImageNum = 0;
+        myInformationText.text = "<size=50> 이름 : " +
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.name) + "</size>\n\n<size=45> 돈 : " +
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.playerMoney) + "</size>\n\n터치 당 골드 : " +
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.clickMoney) + "\n초당 골드      : " +
+            string.Format("{0:n0}", GameManager.Instance.player.playerData.automatcIncome);
 
+        foreach (string key in GameManager.Instance.player.playerData.itemDict.Keys)
+        {
+            if (GameManager.Instance.player.playerData.itemDict[key])
+            {
+                profileImages[profileImageNum].SetActive(true);
+                profileImageNum++;
+            }
+        }
+    }
 }
