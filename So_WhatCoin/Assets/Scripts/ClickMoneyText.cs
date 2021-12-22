@@ -5,8 +5,8 @@ using TMPro;
 
 public class ClickMoneyText : MonoBehaviour
 {
-    private float moveSpeed;
-    private float alphaSpeed;
+    public float moveSpeed;
+    public float alphaSpeed;
     private float destroyTime;
     TextMeshPro text;
     Color alpha;
@@ -15,20 +15,18 @@ public class ClickMoneyText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        moveSpeed = 2.0f;
-        alphaSpeed = 2.0f;
-        destroyTime = 2.0f;
-
+        destroyTime = 1.5f;
+            
         text = GetComponent<TextMeshPro>();
         alpha = text.color;
-        text.text = money.ToString();
+        text.text = string.Format("{0:n0}", money);
         Invoke("DestroyObject", destroyTime);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(new Vector3(0, moveSpeed * Time.deltaTime, 0)); // 텍스트 위치
+        transform.Translate(new Vector3(0, Random.Range(moveSpeed,moveSpeed + 1) * Time.deltaTime, 0)); // 텍스트 위치
 
         alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * alphaSpeed); // 텍스트 알파값
         text.color = alpha;

@@ -12,7 +12,11 @@ public class LaptopClick : MonoBehaviour
     [SerializeField]
     private Sprite[] laptopImages;          // ¹Ù²î´Â ³ëÆ®ºÏ ÀÌ¹ÌÁö
     [SerializeField]
-    private Player player;
+    private GameObject clickMoneyText;
+    [SerializeField]
+    private Transform clickPos;
+    [SerializeField]
+    private GameObject clickEffect;
 
     private SpriteRenderer sptrieRenderer;
 
@@ -35,9 +39,18 @@ public class LaptopClick : MonoBehaviour
     {
         if (isclick)
             StartCoroutine(ClickEffect());
-        player.playerData.playerMoney += player.playerData.clickMoney;
+        GameManager.Instance.player.playerData.playerMoney += GameManager.Instance.player.playerData.clickMoney;
         currentLaptopSprite = (currentLaptopSprite % (laptopImages.Length));
         sptrieRenderer.sprite = laptopImages[currentLaptopSprite++];
+
+        Instantiate(clickEffect, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0,0,0.5f), Quaternion.identity);
+
+        if (GameManager.Instance.player.playerData.itemDict["doge"])
+        {
+            GameObject moneyText = Instantiate(clickMoneyText);
+            moneyText.transform.position = clickPos.position + new Vector3(Random.Range(-1.1f, 1.1f), Random.Range(-0.2f, 0.2f), 0);
+            moneyText.GetComponent<ClickMoneyText>().money = GameManager.Instance.player.playerData.clickMoney;
+        }
     }
 
     private IEnumerator ClickEffect()

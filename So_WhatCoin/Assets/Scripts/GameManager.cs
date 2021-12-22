@@ -105,10 +105,10 @@ public class GameManager : MonoBehaviour
         if (player.playerData.playerMoney < typingSpeedUpgradeCost) return;
 
         player.playerData.playerMoney -= typingSpeedUpgradeCost;
-        typingSpeedUpgradeCost += typingSpeedUpgradeCost / 10;
+        typingSpeedUpgradeCost += typingSpeedUpgradeCost / 13;
 
         player.playerData.clickMoney += typingSpeedUpgradeMoney;
-        typingSpeedUpgradeMoney += 2;
+        typingSpeedUpgradeMoney += 3;
 
         player.playerData.upgradeLevelDict["typingSpeed"] += 1;
         typingSpeedLevelText.text = "Lvl " + player.playerData.upgradeLevelDict["typingSpeed"];
@@ -128,10 +128,11 @@ public class GameManager : MonoBehaviour
         itemPurchaseButton[item.number].interactable = false;
         itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=55>구매완료</size>";
         player.playerData.itemDict[itemName] = true;
+        ShakeCamera.Instance.OnShakeCamera(0.2f, 0.07f);
     }
 
 
-    
+
 
 
 
@@ -141,7 +142,7 @@ public class GameManager : MonoBehaviour
 
         itemMap.Add("frog", items[0].GetComponent<Item>());
         itemMap.Add("monsta", items[1].GetComponent<Item>());
-
+        itemMap.Add("doge", items[2].GetComponent<Item>());
 
         yield return new WaitForSeconds(0.2f);
         coinManager.InitCoin();
