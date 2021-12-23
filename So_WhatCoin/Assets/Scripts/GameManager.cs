@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
         itemMap.Add("doge", items[2].GetComponent<Item>());
         itemMap.Add("keyboard", items[3].GetComponent<Item>());
         itemMap.Add("statikk", items[4].GetComponent<Item>());
+        itemMap.Add("gay", items[5].GetComponent<Item>());
 
         yield return new WaitForSeconds(0.2f);
         coinManager.InitCoin();
@@ -154,6 +155,7 @@ public class GameManager : MonoBehaviour
     void OnApplicationQuit()
     {
         /* 앱이 종료 될 때 처리 */
+        itemMap.Clear();
         player.SavePlayerDataToJson();
     }
 

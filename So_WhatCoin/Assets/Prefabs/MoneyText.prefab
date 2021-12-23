@@ -185,4 +185,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   alphaSpeed: 1
+  destroyTime: 1.5
+  text: {fileID: 0}
   money: 1515

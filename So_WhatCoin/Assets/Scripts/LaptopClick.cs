@@ -49,11 +49,14 @@ public class LaptopClick : MonoBehaviour
         if (isclick)
         {
             soundTime += Time.deltaTime;
-            if (soundTime > 1)
+            if (soundTime > 0.5)
                 audioSource.Stop();
         }
         else
             soundTime = 0;
+
+
+
     }
 
     public void ClickToPlayer()
@@ -90,14 +93,16 @@ public class LaptopClick : MonoBehaviour
                 else
                     clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
             }
-            else
-                clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
         }
         if (GameManager.Instance.player.playerData.itemDict["keyboard"])
         {
-            Instantiate(clickEffect, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 0.5f), Quaternion.identity);
+            Instantiate(clickEffect, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 0.15f), Quaternion.identity);
         }
     }
+
+
+
+
 
     private IEnumerator ClickEffect()
     {
