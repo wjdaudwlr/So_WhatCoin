@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Button[] itemPurchaseButton;
     public Dictionary<string, Item> itemMap = new Dictionary<string, Item>();
+    [SerializeField]
+    private GameObject[] skillImages;
 
     [SerializeField]
     private CoinManager coinManager;
@@ -67,7 +69,6 @@ public class GameManager : MonoBehaviour
             automatcIncomeTime = 0;
         }
         playerMoneyText.text = Money.ToString(player.playerData.playerMoney);
-
     }
 
     private void InitTypingSpeedUpgrade()
@@ -97,6 +98,12 @@ public class GameManager : MonoBehaviour
                 itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=55>구매완료</size>";
             }
         }
+    }
+
+    public void InitSkill()
+    {
+        if (GameManager.Instance.player.playerData.itemDict["gay"])
+            skillImages[0].SetActive(true);
     }
 
 
@@ -129,12 +136,8 @@ public class GameManager : MonoBehaviour
         itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=55>구매완료</size>";
         player.playerData.itemDict[itemName] = true;
         ShakeCamera.Instance.OnShakeCamera(0.2f, 0.07f);
+        InitSkill();
     }
-
-
-
-
-
 
     IEnumerator setData()
     {
@@ -150,6 +153,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         coinManager.InitCoin();
         InitItem();
+        InitSkill();
     }
 
     void OnApplicationQuit()

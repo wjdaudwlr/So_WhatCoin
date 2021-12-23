@@ -18,6 +18,12 @@ public class LaptopClick : MonoBehaviour
     private Transform clickPos;
     [SerializeField]
     private GameObject clickEffect;
+    [SerializeField]
+    private GameObject heeManclickEffect;
+    [SerializeField]
+    private GameObject heeManBackground;
+    [SerializeField]
+    private GameObject heeManImgae;
 
     [Header("Sound")]
     private AudioSource audioSource;
@@ -26,7 +32,11 @@ public class LaptopClick : MonoBehaviour
 
     private SpriteRenderer sptrieRenderer;
 
-    public bool isclick = true;
+    ClickMoneyText clickMoneyTextCom;
+
+    bool isclick = true;
+    bool isHeeManSkill = false;
+
 
     private int currentLaptopSprite = 0;    // 현재 노트북 이미지
 
@@ -54,9 +64,6 @@ public class LaptopClick : MonoBehaviour
         }
         else
             soundTime = 0;
-
-
-
     }
 
     public void ClickToPlayer()
@@ -69,40 +76,71 @@ public class LaptopClick : MonoBehaviour
 
         if (isclick)
             StartCoroutine(ClickEffect());
+
         GameManager.Instance.player.playerData.playerMoney += GameManager.Instance.player.playerData.clickMoney;
         currentLaptopSprite = (currentLaptopSprite % (laptopImages.Length));
         sptrieRenderer.sprite = laptopImages[currentLaptopSprite++];
 
+        
 
         if (GameManager.Instance.player.playerData.itemDict["doge"])
         {
             GameObject moneyText = Instantiate(clickMoneyText);
             moneyText.transform.position = clickPos.position + new Vector3(Random.Range(-1.1f, 1.1f), Random.Range(-0.2f, 0.2f), 0);
-            ClickMoneyText clickMoneyTextCom = moneyText.GetComponent<ClickMoneyText>();
+            clickMoneyTextCom = moneyText.GetComponent<ClickMoneyText>();
             clickMoneyTextCom.SetUp();
 
-            if (GameManager.Instance.player.playerData.itemDict["statikk"])
+            if (isHeeManSkill)
             {
-                if(Random.Range(0,100) < 7)
-                {
-                    clickMoneyTextCom.text.color = new Color(255, 0, 0);
-                    clickMoneyTextCom.text.fontSize = 4f;
-                    clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney * 2;
-                    GameManager.Instance.player.playerData.playerMoney += GameManager.Instance.player.playerData.clickMoney;
-                }
-                else
-                    clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
+                Critical(100);
+                sptrieRenderer.sprite = laptopImages[0];
+            }
+            else if (GameManager.Instance.player.playerData.itemDict["statikk"])
+            {
+                Critical(7);
             }
         }
         if (GameManager.Instance.player.playerData.itemDict["keyboard"])
         {
-            Instantiate(clickEffect, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 0.15f), Quaternion.identity);
+            Instantiate(isHeeManSkill ? heeManclickEffect : clickEffect, Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 0.15f), Quaternion.identity);
         }
     }
 
+    void Critical(int percent)
+    {
+        if(Random.Range(0, 100) < percent)
+        {
+            clickMoneyTextCom.text.color = new Color(255, 0, 0);
+            clickMoneyTextCom.text.fontSize = 4f;
+            clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney * 3;
+            GameManager.Instance.player.playerData.playerMoney += GameManager.Instance.player.playerData.clickMoney * 2;
+        }
+        else
+            clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
+    }
 
+    public void Skill(string skillName)
+    {
+        switch (skillName)
+        {
+            case "HeeMan":
+                StartCoroutine(HeeManSkill());
+                break;
+        }
+    }
 
+    IEnumerator HeeManSkill()
+    {
+        isHeeManSkill = true;
+        heeManBackground.SetActive(true);
+        heeManImgae.SetActive(true);
 
+        yield return new WaitForSeconds(5f);
+
+        heeManImgae.SetActive(false);
+        heeManBackground.SetActive(false);
+        isHeeManSkill = false;
+    }
 
     private IEnumerator ClickEffect()
     {
