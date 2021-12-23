@@ -6,6 +6,8 @@ public class SoundManager : MonoBehaviour
 {
     public AudioSource bgSound;
 
+    public AudioClip[] bgClips;
+
     public static SoundManager instance;
     private void Awake()
     {
@@ -20,6 +22,11 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        BgSoundPlay(0);
+    }
+
     public void SFXPlay(string sfxName, AudioClip clip)
     {
         GameObject go = new GameObject(sfxName + "Sound");
@@ -31,11 +38,13 @@ public class SoundManager : MonoBehaviour
         Destroy(go, clip.length);
     }
 
-    public void BgSoundPlay(AudioClip clip)
+    public void BgSoundPlay(int clip)
     {
-        bgSound.clip = clip;
+        if (bgSound.isPlaying)
+            bgSound.Stop();
+        bgSound.clip = bgClips[clip];
         bgSound.loop = true;
-        bgSound.volume = 0.1f;
+        bgSound.volume = 0.3f;
         bgSound.Play();
     }
 }

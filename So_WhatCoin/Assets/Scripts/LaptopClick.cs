@@ -134,9 +134,11 @@ public class LaptopClick : MonoBehaviour
         isHeeManSkill = true;
         heeManBackground.SetActive(true);
         heeManImgae.SetActive(true);
+        SoundManager.instance.BgSoundPlay(1);
 
         yield return new WaitForSeconds(5f);
 
+        SoundManager.instance.BgSoundPlay(0);
         heeManImgae.SetActive(false);
         heeManBackground.SetActive(false);
         isHeeManSkill = false;
