@@ -51,8 +51,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
-
     private void Start()
     {
         InitTypingSpeedUpgrade();
@@ -95,7 +93,7 @@ public class GameManager : MonoBehaviour
                 Item item = itemMap[key];
                 item.gameObject.SetActive(true);
                 itemPurchaseButton[item.number].interactable = false;
-                itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=55>구매완료</size>";
+                itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=50>구매완료</size>";
             }
         }
     }
@@ -135,7 +133,7 @@ public class GameManager : MonoBehaviour
 
         item.gameObject.SetActive(true);
         itemPurchaseButton[item.number].interactable = false;
-        itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=55>구매완료</size>";
+        itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=50>구매완료</size>";
         player.playerData.itemDict[itemName] = true;
         ShakeCamera.Instance.OnShakeCamera(0.2f, 0.07f);
         InitSkill();

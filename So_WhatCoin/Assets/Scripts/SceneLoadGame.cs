@@ -5,5 +5,8 @@ using UnityEngine;
 
 public class SceneLoadGame : MonoBehaviour
 {
-    
+    public void GameStart()
+    {
+        LoadingSceneController.LoadScene("GameScene");
+    }
 }
