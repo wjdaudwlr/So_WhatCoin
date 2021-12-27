@@ -76,9 +76,10 @@ public class UIManager : MonoBehaviour
         {
             if (GameManager.Instance.player.playerData.itemDict[key])
             {
+                Debug.Log(key);
                 profileImages[profileImageNum].SetActive(true);
-                profileImageNum++;
             }
+            profileImageNum++;
         }
     }
 }

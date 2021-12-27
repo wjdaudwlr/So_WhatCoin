@@ -102,8 +102,10 @@ public class GameManager : MonoBehaviour
 
     public void InitSkill()
     {
-        if (GameManager.Instance.player.playerData.itemDict["gay"])
+        if (player.playerData.itemDict["gay"])
             skillImages[0].SetActive(true);
+        if (player.playerData.itemDict["speaker"])
+            skillImages[1].SetActive(true);
     }
 
 
@@ -148,7 +150,8 @@ public class GameManager : MonoBehaviour
         itemMap.Add("doge", items[2].GetComponent<Item>());
         itemMap.Add("keyboard", items[3].GetComponent<Item>());
         itemMap.Add("statikk", items[4].GetComponent<Item>());
-        itemMap.Add("gay", items[5].GetComponent<Item>());
+        itemMap.Add("speaker", items[5].GetComponent<Item>());
+        itemMap.Add("gay", items[6].GetComponent<Item>());
 
         yield return new WaitForSeconds(0.2f);
         coinManager.InitCoin();

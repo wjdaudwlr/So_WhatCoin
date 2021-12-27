@@ -8,7 +8,7 @@ public class SkillCoolTime : MonoBehaviour
     public LaptopClick laptopClick;
 
     public Image image_fill;
-    public float time_cooltime = 120;
+    public float time_cooltime;
     private float time_current;
     private float time_start;
     private bool isEnded = true;
@@ -27,7 +27,6 @@ public class SkillCoolTime : MonoBehaviour
 
     private void Init_UI()
     {
-       
         image_fill.fillClockwise = false;
     }
 
@@ -51,17 +50,22 @@ public class SkillCoolTime : MonoBehaviour
         Debug.Log("Skills Available!");
     }
 
-    public void Trigger_Skill(string skillName)
+    public void Trigger_Skill()
     {
-        if (!isEnded)
+        if (!isEnded || laptopClick.isSkill)
         {
             Debug.LogError("Hold On");
             return;
         }
 
         Reset_CoolTime();
-        laptopClick.Skill(skillName);
+        Skill();
         Debug.Log("Trigger_Skill!");
+    }
+
+    public virtual void Skill()
+    {
+
     }
 
     private void Reset_CoolTime()

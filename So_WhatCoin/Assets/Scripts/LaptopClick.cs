@@ -20,10 +20,7 @@ public class LaptopClick : MonoBehaviour
     private GameObject clickEffect;
     [SerializeField]
     private GameObject heeManclickEffect;
-    [SerializeField]
-    private GameObject heeManBackground;
-    [SerializeField]
-    private GameObject heeManImgae;
+    
 
     [Header("Sound")]
     private AudioSource audioSource;
@@ -35,8 +32,8 @@ public class LaptopClick : MonoBehaviour
     ClickMoneyText clickMoneyTextCom;
 
     bool isclick = true;
-    bool isHeeManSkill = false;
-
+    public bool isHeeManSkill = false;
+    public bool isSkill = false;
 
     private int currentLaptopSprite = 0;    // 현재 노트북 이미지
 
@@ -81,7 +78,6 @@ public class LaptopClick : MonoBehaviour
         currentLaptopSprite = (currentLaptopSprite % (laptopImages.Length));
         sptrieRenderer.sprite = laptopImages[currentLaptopSprite++];
 
-        
 
         if (GameManager.Instance.player.playerData.itemDict["doge"])
         {
@@ -89,6 +85,8 @@ public class LaptopClick : MonoBehaviour
             moneyText.transform.position = clickPos.position + new Vector3(Random.Range(-1.1f, 1.1f), Random.Range(-0.2f, 0.2f), 0);
             clickMoneyTextCom = moneyText.GetComponent<ClickMoneyText>();
             clickMoneyTextCom.SetUp();
+
+            clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
 
             if (isHeeManSkill)
             {
@@ -119,30 +117,9 @@ public class LaptopClick : MonoBehaviour
             clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
     }
 
-    public void Skill(string skillName)
-    {
-        switch (skillName)
-        {
-            case "HeeMan":
-                StartCoroutine(HeeManSkill());
-                break;
-        }
-    }
+    
 
-    IEnumerator HeeManSkill()
-    {
-        isHeeManSkill = true;
-        heeManBackground.SetActive(true);
-        heeManImgae.SetActive(true);
-        SoundManager.instance.BgSoundPlay(1);
-
-        yield return new WaitForSeconds(5f);
-
-        SoundManager.instance.BgSoundPlay(0);
-        heeManImgae.SetActive(false);
-        heeManBackground.SetActive(false);
-        isHeeManSkill = false;
-    }
+    
 
     private IEnumerator ClickEffect()
     {

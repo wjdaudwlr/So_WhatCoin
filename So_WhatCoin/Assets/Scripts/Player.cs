@@ -8,8 +8,6 @@ public class Player : MonoBehaviour
 {
     public PlayerData playerData = new PlayerData();
 
-    
-
     [ContextMenu("To Json Data")]
     public void SavePlayerDataToJson()
     {
