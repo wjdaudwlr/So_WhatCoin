@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     public void SavePlayerDataToJson()
     {
         string jsonData = JsonConvert.SerializeObject(playerData);
-        string path = Path.Combine(Application.dataPath, "playerData.json");
+        string path = Path.Combine(Application.dataPath, "Resources\\playerData.json");
         Debug.Log(jsonData);
         File.WriteAllText(path, jsonData);
     }
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     [ContextMenu("From Json Data")]
     public void LoadPlayerDataToJson()
     {
-        string path = Path.Combine(Application.dataPath, "playerData.json");
+        string path = Path.Combine(Application.dataPath, "Resources\\playerData.json");
         string jsonData = File.ReadAllText(path);
         playerData = JsonConvert.DeserializeObject<PlayerData>(jsonData);
     }
