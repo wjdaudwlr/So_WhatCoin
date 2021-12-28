@@ -10,6 +10,8 @@ public class CoinManager : MonoBehaviour
     [SerializeField]
     private Text[] coinQuantityText;
 
+    public InputField coinInputField;
+
     Dictionary<string, Coin> coinMap = new Dictionary<string, Coin>();
 
     private void Awake()
@@ -32,8 +34,8 @@ public class CoinManager : MonoBehaviour
         Coin coin = coinMap[coinName];
         if (GameManager.Instance.player.playerData.playerMoney < coin.price) return;
 
-        GameManager.Instance.player.playerData.coinDict[coinName] += 1;
-        GameManager.Instance.player.playerData.playerMoney -= coin.price;
+        GameManager.Instance.player.playerData.coinDict[coinName] += int.Parse(coinInputField.text);
+        GameManager.Instance.player.playerData.playerMoney -= coin.price * uint.Parse(coinInputField.text);
 
         coinQuantityText[coin.number].text ="x " + GameManager.Instance.player.playerData.coinDict[coinName].ToString();
     }
@@ -43,8 +45,8 @@ public class CoinManager : MonoBehaviour
         Coin coin = coinMap[coinName];
         if (GameManager.Instance.player.playerData.coinDict[coinName] < 1) return;
 
-        GameManager.Instance.player.playerData.coinDict[coinName] -= 1;
-        GameManager.Instance.player.playerData.playerMoney += coin.price;
+        GameManager.Instance.player.playerData.coinDict[coinName] -= int.Parse(coinInputField.text);
+        GameManager.Instance.player.playerData.playerMoney += coin.price * uint.Parse(coinInputField.text);
 
         coinQuantityText[coin.number].text = "x " + GameManager.Instance.player.playerData.coinDict[coinName].ToString();
     }

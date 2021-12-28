@@ -20,9 +20,9 @@ public class Player : MonoBehaviour
     [ContextMenu("From Json Data")]
     public void LoadPlayerDataToJson()
     {
-        string path = Path.Combine(Application.dataPath, "Resources\\playerData.json");
-        string jsonData = File.ReadAllText(path);
-        playerData = JsonConvert.DeserializeObject<PlayerData>(jsonData);
+
+        TextAsset text = Resources.Load<TextAsset>("playerData");
+        playerData = JsonConvert.DeserializeObject<PlayerData>(text.text);
     }
 
 }
