@@ -11,7 +11,9 @@ public class LaptopClick : MonoBehaviour
     [SerializeField]
     private float resizeTime;               // 크기 변화에 소요되는 시간
     [SerializeField]
-    private Sprite[] laptopImages;          // 바뀌는 노트북 이미지
+    private Sprite[] laptopScreenImages;          // 바뀌는 노트북 화면 이미지
+    [SerializeField]
+    private Sprite laptopImage;          // 바뀌는 노트북 스프라트
     [SerializeField]
     private GameObject clickMoneyText;
     [SerializeField]
@@ -41,13 +43,14 @@ public class LaptopClick : MonoBehaviour
 
     private void Awake()
     {
+        
         audioSource = GetComponent<AudioSource>();
         sptrieRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
     {
-        sptrieRenderer.sprite = laptopImages[currentLaptopSprite];
+        sptrieRenderer.sprite = laptopScreenImages[currentLaptopSprite];
     }
 
 
@@ -75,8 +78,8 @@ public class LaptopClick : MonoBehaviour
             StartCoroutine(ClickEffect());
 
         GameManager.Instance.player.playerData.playerMoney += GameManager.Instance.player.playerData.clickMoney;
-        currentLaptopSprite = (currentLaptopSprite % (laptopImages.Length));
-        sptrieRenderer.sprite = laptopImages[currentLaptopSprite++];
+        currentLaptopSprite = (currentLaptopSprite % (laptopScreenImages.Length));
+        sptrieRenderer.sprite = laptopScreenImages[currentLaptopSprite++];
 
 
         if (GameManager.Instance.player.playerData.itemDict["doge"])
@@ -91,7 +94,7 @@ public class LaptopClick : MonoBehaviour
             if (isHeeManSkill)
             {
                 Critical(100);
-                sptrieRenderer.sprite = laptopImages[0];
+                sptrieRenderer.sprite = laptopScreenImages[0];
             }
             else if (GameManager.Instance.player.playerData.itemDict["statikk"])
             {
@@ -116,10 +119,6 @@ public class LaptopClick : MonoBehaviour
         else
             clickMoneyTextCom.money = GameManager.Instance.player.playerData.clickMoney;
     }
-
-    
-
-    
 
     private IEnumerator ClickEffect()
     {

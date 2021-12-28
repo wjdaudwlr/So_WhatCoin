@@ -1,0 +1,18 @@
+{
+  "name": "정명직",
+  "playerMoney": 0,
+  "clickMoney": 30,
+  "automatcIncome": 0,
+  "upgradeLevelDict": { "typingSpeed": 1 },
+  "itemDict": {
+    "frog": false,
+    "monsta": false,
+    "doge": false,
+    "keyboard": false,
+    "statikk": false,
+    "speaker": false,
+    "gay": false,
+    "gram": false
+  },
+  "coinDict": { "GSMCoin": 0 }
+}

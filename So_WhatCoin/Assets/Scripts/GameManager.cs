@@ -53,7 +53,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        InitTypingSpeedUpgrade();
 
         DontDestroyOnLoad(this);
     }
@@ -63,7 +62,7 @@ public class GameManager : MonoBehaviour
         automatcIncomeTime += Time.deltaTime;
         if(automatcIncomeTime >= 1)
         {
-            player.playerData.playerMoney += player.playerData.automatcIncome;
+            player.playerData.playerMoney += player.playerData.automatcIncome; 
             automatcIncomeTime = 0;
         }
         playerMoneyText.text = Money.ToString(player.playerData.playerMoney);
@@ -87,9 +86,9 @@ public class GameManager : MonoBehaviour
     {
         foreach (string key in player.playerData.itemDict.Keys)
         {
-            Debug.Log(key);
             if (player.playerData.itemDict[key])
             {
+                Debug.Log(key);
                 Item item = itemMap[key];
                 item.gameObject.SetActive(true);
                 itemPurchaseButton[item.number].interactable = false;
@@ -150,11 +149,13 @@ public class GameManager : MonoBehaviour
         itemMap.Add("statikk", items[4].GetComponent<Item>());
         itemMap.Add("speaker", items[5].GetComponent<Item>());
         itemMap.Add("gay", items[6].GetComponent<Item>());
+        itemMap.Add("gram", items[7].GetComponent<Item>());
 
         yield return new WaitForSeconds(0.2f);
         coinManager.InitCoin();
         InitItem();
         InitSkill();
+        InitTypingSpeedUpgrade();
     }
 
     void OnApplicationQuit()
@@ -163,5 +164,4 @@ public class GameManager : MonoBehaviour
         itemMap.Clear();
         player.SavePlayerDataToJson();
     }
-
 }
