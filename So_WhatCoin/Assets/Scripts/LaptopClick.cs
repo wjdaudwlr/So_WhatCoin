@@ -59,7 +59,7 @@ public class LaptopClick : MonoBehaviour
         if (isclick)
         {
             soundTime += Time.deltaTime;
-            if (soundTime > 0.5)
+            if (soundTime > 0.35)
                 audioSource.Stop();
         }
         else

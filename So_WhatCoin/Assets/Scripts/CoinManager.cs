@@ -25,30 +25,41 @@ public class CoinManager : MonoBehaviour
         {
             Coin coin = coinMap[coinkey];
 
-            coinQuantityText[coin.number].text = "x " + GameManager.Instance.player.playerData.coinDict[coinkey].ToString();
+            coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[coinkey]);
         }
     }
 
     public void CoinPurchase(string coinName)
     {
+        int result = 0;
+        if (!int.TryParse(coinInputField.text, out result) || int.Parse(coinInputField.text) <= 0) return;
+
+        uint coinInput = uint.Parse(coinInputField.text);
+
         Coin coin = coinMap[coinName];
-        if (GameManager.Instance.player.playerData.playerMoney < coin.price) return;
+        if ( GameManager.Instance.player.playerData.playerMoney < coin.price * coinInput) return;
 
-        GameManager.Instance.player.playerData.coinDict[coinName] += int.Parse(coinInputField.text);
-        GameManager.Instance.player.playerData.playerMoney -= coin.price * uint.Parse(coinInputField.text);
+        GameManager.Instance.player.playerData.coinDict[coinName] += (int)coinInput;
+        GameManager.Instance.player.playerData.playerMoney -= coin.price * coinInput;
 
-        coinQuantityText[coin.number].text ="x " + GameManager.Instance.player.playerData.coinDict[coinName].ToString();
+        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[coinName]);
     }
 
     public void CoinSale(string coinName)
     {
+        int result = 0;
+        if (!int.TryParse(coinInputField.text, out result) || int.Parse(coinInputField.text) <= 0) return;
+
+        uint coinInput = uint.Parse(coinInputField.text);
+
         Coin coin = coinMap[coinName];
-        if (GameManager.Instance.player.playerData.coinDict[coinName] < 1) return;
 
-        GameManager.Instance.player.playerData.coinDict[coinName] -= int.Parse(coinInputField.text);
-        GameManager.Instance.player.playerData.playerMoney += coin.price * uint.Parse(coinInputField.text);
+        if (GameManager.Instance.player.playerData.coinDict[coinName] < coinInput) return;
 
-        coinQuantityText[coin.number].text = "x " + GameManager.Instance.player.playerData.coinDict[coinName].ToString();
+        GameManager.Instance.player.playerData.coinDict[coinName] -= (int)coinInput;
+        GameManager.Instance.player.playerData.playerMoney += coin.price * coinInput;
+
+        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[coinName]);
     }
 
 }
