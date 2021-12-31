@@ -34,7 +34,7 @@ public class PlayerData
     public ulong playerMoney;
     public ulong clickMoney = 25;
     public uint automatcIncome = 0;
-    public Dictionary<string, int> upgradeLevelDict;
+    public uint typingSpeed = 1;
     public Dictionary<string, bool> itemDict;
     public Dictionary<string, int> coinDict;
 }

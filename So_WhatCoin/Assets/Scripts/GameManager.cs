@@ -73,8 +73,8 @@ public class GameManager : MonoBehaviour
         typingSpeedUpgradeCost = 1000;
         typingSpeedUpgradeMoney = 15;
 
-        typingSpeedLevelText.text = "Lvl " + player.playerData.upgradeLevelDict["typingSpeed"];
-        for(int i = 1; i< player.playerData.upgradeLevelDict["typingSpeed"]; i++)
+        typingSpeedLevelText.text = "Lvl " + player.playerData.typingSpeed;
+        for(int i = 1; i< player.playerData.typingSpeed; i++)
         {
             typingSpeedUpgradeCost += typingSpeedUpgradeCost / 10;
             typingSpeedUpgradeMoney += 3;
@@ -116,8 +116,8 @@ public class GameManager : MonoBehaviour
         player.playerData.clickMoney += typingSpeedUpgradeMoney;
         typingSpeedUpgradeMoney += 3;
 
-        player.playerData.upgradeLevelDict["typingSpeed"] += 1;
-        typingSpeedLevelText.text = "Lvl " + player.playerData.upgradeLevelDict["typingSpeed"];
+        player.playerData.typingSpeed += 1;
+        typingSpeedLevelText.text = "Lvl " + player.playerData.typingSpeed;
 
         typingSpeedUpgradeCostText.text = $"<size=32>" + string.Format("{0:n0}", typingSpeedUpgradeCost) +  " ¿ø</size>\n\n+ " + string.Format("{0:n0}", typingSpeedUpgradeMoney) +  "GOLD";
     }

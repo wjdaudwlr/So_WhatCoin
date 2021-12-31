@@ -415,7 +415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressBar: {fileID: 2007740585}
-  tipText: {fileID: 0}
+  tipText: {fileID: 93118873}
   tipMessage:
   - "\uD130\uCE58\uB97C \uD558\uBA74 \uB3C8\uC744 \uBC8C \uC218 \uC788\uC5B4\uC694!"
   - "\uCF54\uC778\uC744 \uC774\uC6A9\uD558\uBA74 \uB3C8\uC744 \uC27D\uAC8C \uBC8C\uC218\uB3C4?"
