@@ -9,15 +9,23 @@ public class CoinManager : MonoBehaviour
     [Header("Coin")]
     [SerializeField]
     private Text[] coinQuantityText;
+    [SerializeField]
+    private GameObject coinTransactionPanel;
 
     public InputField coinInputField;
 
     Dictionary<string, Coin> coinMap = new Dictionary<string, Coin>();
 
+    string currentCoinName;
+
     private void Awake()
     {
-        coinMap.Add("GSMCoin", new Coin("GSMCoin", 5000000, 0));
+        coinMap.Add("gsmcoin", new Coin("gsmcoin", 5000000, 0));
+        coinMap.Add("kimdongdong", new Coin("kimdongdong", 5000000, 0));
+        coinMap.Add("whattodocoin", new Coin("whattodocoin", 5000000, 0));
     }
+
+
 
     public void InitCoin()
     {
@@ -29,37 +37,45 @@ public class CoinManager : MonoBehaviour
         }
     }
 
-    public void CoinPurchase(string coinName)
+    public void CoinPurchase()
     {
         int result = 0;
         if (!int.TryParse(coinInputField.text, out result) || int.Parse(coinInputField.text) <= 0) return;
 
         uint coinInput = uint.Parse(coinInputField.text);
 
-        Coin coin = coinMap[coinName];
+        Coin coin = coinMap[currentCoinName];
         if ( GameManager.Instance.player.playerData.playerMoney < coin.price * coinInput) return;
 
-        GameManager.Instance.player.playerData.coinDict[coinName] += (int)coinInput;
+        GameManager.Instance.player.playerData.coinDict[currentCoinName] += (int)coinInput;
         GameManager.Instance.player.playerData.playerMoney -= coin.price * coinInput;
 
-        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[coinName]);
+        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
     }
 
-    public void CoinSale(string coinName)
+    public void CoinSale()
     {
         int result = 0;
         if (!int.TryParse(coinInputField.text, out result) || int.Parse(coinInputField.text) <= 0) return;
 
         uint coinInput = uint.Parse(coinInputField.text);
 
-        Coin coin = coinMap[coinName];
+        Coin coin = coinMap[currentCoinName];
 
-        if (GameManager.Instance.player.playerData.coinDict[coinName] < coinInput) return;
+        if (GameManager.Instance.player.playerData.coinDict[currentCoinName] < coinInput) return;
 
-        GameManager.Instance.player.playerData.coinDict[coinName] -= (int)coinInput;
+        GameManager.Instance.player.playerData.coinDict[currentCoinName] -= (int)coinInput;
         GameManager.Instance.player.playerData.playerMoney += coin.price * coinInput;
 
-        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[coinName]);
+        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
     }
+
+    public void CoinTransactionPanelOnOff(string coinName)
+    {
+        if (coinTransactionPanel.activeSelf) coinTransactionPanel.SetActive(false);
+        currentCoinName = coinName;
+        coinTransactionPanel.SetActive(true);
+    }
+
 
 }

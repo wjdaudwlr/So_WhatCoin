@@ -149,7 +149,8 @@ public class GameManager : MonoBehaviour
         itemMap.Add("statikk", items[4].GetComponent<Item>());
         itemMap.Add("speaker", items[5].GetComponent<Item>());
         itemMap.Add("gay", items[6].GetComponent<Item>());
-        itemMap.Add("gram", items[7].GetComponent<Item>());
+        itemMap.Add("ekko", items[7].GetComponent<Item>());
+        itemMap.Add("gram", items[8].GetComponent<Item>());
 
         yield return new WaitForSeconds(0.2f);
         coinManager.InitCoin();

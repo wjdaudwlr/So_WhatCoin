@@ -23,7 +23,7 @@ public class HeeManSkill : SkillCoolTime
         heeManBackground.SetActive(true);
         heeManImgae.SetActive(true);
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(6f);
 
         SoundManager.instance.BgSoundPlay(0);
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+
 public class NetworkManager : MonoBehaviour
 {
     public InputField emailinputField;
@@ -15,7 +16,7 @@ public class NetworkManager : MonoBehaviour
     }
 
     IEnumerator DataPost()
-    {
+    {      
         string url = "http://10.120.74.70:3001/auth/login";
 
         WWWForm form = new WWWForm();
@@ -23,15 +24,17 @@ public class NetworkManager : MonoBehaviour
         form.AddField("password", passwordinputField.text);
         UnityWebRequest www = UnityWebRequest.Post(url, form);
 
+        Debug.Log("1");
         yield return www.SendWebRequest(); // 응답이 올때까지 기다린다
 
         if (www.isNetworkError)
         {
             Debug.Log(www.error);
         }
-        else
+        else if(www.downloadHandler.text != "false")
         {
-            Debug.Log(www.downloadHandler.text); // 들어온 데이터 확인
+            Debug.Log(www.downloadHandler.text);
+            LoadingSceneController.LoadScene("GameScene");
         }
     }
 

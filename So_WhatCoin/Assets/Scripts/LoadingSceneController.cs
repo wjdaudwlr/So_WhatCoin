@@ -10,6 +10,10 @@ public class LoadingSceneController : MonoBehaviour
 
     [SerializeField]
     Image progressBar;
+    [SerializeField]
+    Text tipText;
+    public string[] tipMessage;
+
 
     public static void LoadScene(string sceneName)
     {
@@ -19,6 +23,7 @@ public class LoadingSceneController : MonoBehaviour
 
     private void Start()
     {
+        tipText.text = "TIP. " + tipMessage[Random.Range(0, tipMessage.Length)];
         StartCoroutine(LoadSceneProcess());
     }
 

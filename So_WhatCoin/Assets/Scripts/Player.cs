@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     [ContextMenu("From Json Data")]
     public void LoadPlayerDataToJson()
     {
-
         TextAsset text = Resources.Load<TextAsset>("playerData");
         playerData = JsonConvert.DeserializeObject<PlayerData>(text.text);
     }
