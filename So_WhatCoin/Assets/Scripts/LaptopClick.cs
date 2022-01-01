@@ -96,7 +96,7 @@ public class LaptopClick : MonoBehaviour
                 Critical(100);
                 sptrieRenderer.sprite = laptopScreenImages[0];
             }
-            else if (GameManager.Instance.player.playerData.itemDict["statikk"])
+            else if (GameManager.Instance.player.playerData.itemDict["statik"])
             {
                 Critical(7);
             }

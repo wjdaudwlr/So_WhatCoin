@@ -10,9 +10,13 @@ public class CoinManager : MonoBehaviour
     [SerializeField]
     private Text[] coinQuantityText;
     [SerializeField]
+    private Text[] coinPriceTexts;
+    [SerializeField]
     private GameObject coinTransactionPanel;
 
     public InputField coinInputField;
+
+    public SocketClient socketClient;
 
     Dictionary<string, Coin> coinMap = new Dictionary<string, Coin>();
 
@@ -20,12 +24,23 @@ public class CoinManager : MonoBehaviour
 
     private void Awake()
     {
-        coinMap.Add("gsmcoin", new Coin("gsmcoin", 5000000, 0));
         coinMap.Add("kimdongdong", new Coin("kimdongdong", 5000000, 0));
-        coinMap.Add("whattodocoin", new Coin("whattodocoin", 5000000, 0));
+        coinMap.Add("whattodocoin", new Coin("whattodocoin", 5000000, 1));
+        coinMap.Add("gsmcoin", new Coin("gsmcoin", 5000000, 2));
+        coinMap.Add("choigangmincoin", new Coin("choigangmincoin", 5000000, 3));
+        coinMap.Add("gemgaejiyecoin", new Coin("gemgaejiyecoin", 5000000, 4));
+        coinMap.Add("hyeonttungcoin", new Coin("hyeonttungcoin", 5000000, 5));
+        coinMap.Add("ijuncoin", new Coin("ijuncoin", 5000000, 6));
+        coinMap.Add("eunseongcoin", new Coin("eunseongcoin", 5000000, 7));
+        coinMap.Add("jjunjjunacoin", new Coin("jjunjjunacoin", 5000000, 8));
+        coinMap.Add("sihuncoin", new Coin("sihuncoin", 5000000, 9));
+        coinMap.Add("haembeogseungmincoin", new Coin("haembeogseungmincoin", 5000000, 10));
+        coinMap.Add("yusiopeucoin", new Coin("yusiopeucoin", 5000000, 11));
+        coinMap.Add("geonucoin", new Coin("geonucoin", 5000000, 12));
+        coinMap.Add("manghaessseonghuncoin", new Coin("manghaessseonghuncoin", 5000000, 13));
     }
 
-
+    
 
     public void InitCoin()
     {
@@ -37,10 +52,22 @@ public class CoinManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        foreach (string coinkey in GameManager.Instance.player.playerData.coinDict.Keys) {
+            coinMap[coinkey].price = (ulong)(socketClient.coinDatas[coinMap[coinkey].number].price);
+            coinPriceTexts[coinMap[coinkey].number].text = string.Format("{0:n0}", coinMap[coinkey].price) + "¿ø";
+        }
+    }
+
     public void CoinPurchase()
     {
+        Debug.Log(currentCoinName);
         int result = 0;
-        if (!int.TryParse(coinInputField.text, out result) || int.Parse(coinInputField.text) <= 0) return;
+        if (!int.TryParse(coinInputField.text, out result) || int.Parse(coinInputField.text) <= 0) {
+            Debug.Log(1);
+            return;
+        };
 
         uint coinInput = uint.Parse(coinInputField.text);
 
@@ -55,6 +82,7 @@ public class CoinManager : MonoBehaviour
 
     public void CoinSale()
     {
+        Debug.Log(currentCoinName);
         int result = 0;
         if (!int.TryParse(coinInputField.text, out result) || int.Parse(coinInputField.text) <= 0) return;
 
@@ -73,8 +101,8 @@ public class CoinManager : MonoBehaviour
     public void CoinTransactionPanelOnOff(string coinName)
     {
         if (coinTransactionPanel.activeSelf) coinTransactionPanel.SetActive(false);
+        else coinTransactionPanel.SetActive(true);
         currentCoinName = coinName;
-        coinTransactionPanel.SetActive(true);
     }
 
 

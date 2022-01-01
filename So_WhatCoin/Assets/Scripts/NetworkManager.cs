@@ -9,6 +9,7 @@ public class NetworkManager : MonoBehaviour
 {
     public InputField emailinputField;
     public InputField passwordinputField;
+    public static string playerdata;  
 
     public void Login()
     {
@@ -34,6 +35,9 @@ public class NetworkManager : MonoBehaviour
         else if(www.downloadHandler.text != "false")
         {
             Debug.Log(www.downloadHandler.text);
+
+            playerdata = www.downloadHandler.text;
+
             LoadingSceneController.LoadScene("GameScene");
         }
     }

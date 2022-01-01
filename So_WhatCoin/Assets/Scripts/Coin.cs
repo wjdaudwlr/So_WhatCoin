@@ -15,4 +15,6 @@ public class Coin : MonoBehaviour
         this.number = _number;
     }
 
+
+
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq ;
 
 public class Player : MonoBehaviour
 {
@@ -20,8 +21,17 @@ public class Player : MonoBehaviour
     [ContextMenu("From Json Data")]
     public void LoadPlayerDataToJson()
     {
-        TextAsset text = Resources.Load<TextAsset>("playerData");
-        playerData = JsonConvert.DeserializeObject<PlayerData>(text.text);
+        //TextAsset text = Resources.Load<TextAsset>();
+
+        JObject jobj = new JObject();
+
+        jobj = JObject.Parse(NetworkManager.playerdata);
+
+        foreach (KeyValuePair<string, JToken> pair in jobj)
+        {
+            playerData = JsonConvert.DeserializeObject<PlayerData>(pair.Value.ToString());
+            Debug.Log(pair.Value);
+        }
     }
 
 }
@@ -31,6 +41,7 @@ public class Player : MonoBehaviour
 public class PlayerData
 {
     public string name;
+    public string email;
     public ulong playerMoney;
     public ulong clickMoney = 25;
     public uint automatcIncome = 0;
