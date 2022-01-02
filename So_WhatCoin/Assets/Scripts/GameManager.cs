@@ -159,10 +159,17 @@ public class GameManager : MonoBehaviour
         InitTypingSpeedUpgrade();
     }
 
-    void OnApplicationQuit()
-    {
-        /* 앱이 종료 될 때 처리 */
-        itemMap.Clear();
-        player.SavePlayerDataToJson();
+
+    public void Quit()
+    {   
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+            
+#endif
     }
+
+
+
 }

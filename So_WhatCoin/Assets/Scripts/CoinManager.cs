@@ -10,15 +10,19 @@ public class CoinManager : MonoBehaviour
     [SerializeField]
     private Text[] coinQuantityText;
     [SerializeField]
-    private Text[] coinPriceTexts;
+    public Text[] coinPriceTexts;
+    [SerializeField]
+    private Text purchasedPriceText;
     [SerializeField]
     private GameObject coinTransactionPanel;
+
+    ulong[] purchasedPrice = new ulong[14];
 
     public InputField coinInputField;
 
     public SocketClient socketClient;
 
-    Dictionary<string, Coin> coinMap = new Dictionary<string, Coin>();
+    public Dictionary<string, Coin> coinMap = new Dictionary<string, Coin>();
 
     string currentCoinName;
 
@@ -52,9 +56,13 @@ public class CoinManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void Update()
     {
-        foreach (string coinkey in GameManager.Instance.player.playerData.coinDict.Keys) {
+
+        if (socketClient.coinDatas.Count == 0) return;
+        
+        foreach (string coinkey in GameManager.Instance.player.playerData.coinDict.Keys)
+        {
             coinMap[coinkey].price = (ulong)(socketClient.coinDatas[coinMap[coinkey].number].price);
             coinPriceTexts[coinMap[coinkey].number].text = string.Format("{0:n0}", coinMap[coinkey].price) + "원";
         }
@@ -76,6 +84,9 @@ public class CoinManager : MonoBehaviour
 
         GameManager.Instance.player.playerData.coinDict[currentCoinName] += (int)coinInput;
         GameManager.Instance.player.playerData.playerMoney -= coin.price * coinInput;
+
+        purchasedPrice[coin.number] = coin.price;
+        purchasedPriceText.text = "구매한 가격 : " + string.Format("{0:n0}", purchasedPrice[coin.number]);
 
         coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
     }
@@ -103,6 +114,10 @@ public class CoinManager : MonoBehaviour
         if (coinTransactionPanel.activeSelf) coinTransactionPanel.SetActive(false);
         else coinTransactionPanel.SetActive(true);
         currentCoinName = coinName;
+
+        Coin coin = coinMap[coinName];
+
+        purchasedPriceText.text = "구매한 가격 : " + string.Format("{0:n0}", purchasedPrice[coin.number]);
     }
 
 

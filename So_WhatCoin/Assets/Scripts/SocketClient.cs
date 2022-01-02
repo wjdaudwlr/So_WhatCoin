@@ -10,6 +10,7 @@ public class SocketClient : MonoBehaviour
 {
     private QSocket socket;
     public List<CoinData> coinDatas = new List<CoinData>();
+    public CoinManager coinManager;
 
     private void Start()
     {
@@ -62,6 +63,7 @@ public class SocketClient : MonoBehaviour
             {
                 Debug.Log("id : " + item.id + "      name : " + item.name + "      price : " + item.price);
             }
+
         });
     }
 
