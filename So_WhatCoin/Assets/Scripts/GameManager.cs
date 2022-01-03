@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private CoinManager coinManager;
+    [SerializeField]
+    private GameObject backPanel;
 
     private ulong typingSpeedUpgradeCost;
     private ulong typingSpeedUpgradeMoney;
@@ -39,7 +43,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        StartCoroutine(setData());
+        player.LoadPlayerDataToJson();
 
         if (Instance == null)
         {
@@ -53,6 +57,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        StartCoroutine(setData());
 
         DontDestroyOnLoad(this);
     }
@@ -66,6 +71,14 @@ public class GameManager : MonoBehaviour
             automatcIncomeTime = 0;
         }
         playerMoneyText.text = Money.ToString(player.playerData.playerMoney);
+
+        if(Application.platform == RuntimePlatform.Android)
+        {
+            if (Input.GetKey(KeyCode.Escape) && backPanel.activeSelf == false)
+            {
+                backPanel.SetActive(true);
+            }
+        }
     }
 
     private void InitTypingSpeedUpgrade()
@@ -140,7 +153,6 @@ public class GameManager : MonoBehaviour
 
     IEnumerator setData()
     {
-        player.LoadPlayerDataToJson();
 
         itemMap.Add("frog", items[0].GetComponent<Item>());
         itemMap.Add("monsta", items[1].GetComponent<Item>());
@@ -159,6 +171,11 @@ public class GameManager : MonoBehaviour
         InitTypingSpeedUpgrade();
     }
 
+    public void ContinueGame()
+    {
+        backPanel.SetActive(false);
+    }
+    
 
     public void Quit()
     {   
@@ -166,10 +183,62 @@ public class GameManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         #else
             Application.Quit();
-            
-#endif
+
+        #endif
     }
 
+    public void GameExit()
+    {
+        StartCoroutine(GameExitSave());
+    }
 
+    IEnumerator GameExitSave()
+    {
+        yield return StartCoroutine(DataPostSave());
+        coinManager.coinMap.Clear();
+        itemMap.Clear();
+        Quit();
+    }
+
+    IEnumerator DataPostSave()
+    {
+        string url = "http://10.120.74.70:3001/auth/save";
+        string jsonData = JsonConvert.SerializeObject(player.playerData);
+
+        WWWForm form = new WWWForm();
+
+        Debug.Log(jsonData);
+
+        form.AddField("userdata", jsonData);
+
+        UnityWebRequest www = UnityWebRequest.Post(url, form);
+
+        Debug.Log("1");
+        yield return www.SendWebRequest(); // 응답이 올때까지 기다린다
+        Debug.Log("1");
+
+        if (www.isNetworkError)
+        {
+            Debug.Log(www.error);
+        }
+        else if (www.downloadHandler.text != "false")
+        {
+            Debug.Log("성공");
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        GameExit();
+        coinManager.coinMap.Clear();
+        itemMap.Clear();
+    }
+
+    public void Logout()
+    {
+        PlayerPrefs.SetString("playerEmail", null);
+        PlayerPrefs.SetString("playerPassword", null);
+        GameExit();
+    }
 
 }

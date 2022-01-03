@@ -12,18 +12,11 @@ public class FadeEffect : MonoBehaviour
     private void Awake()
     {
         textFade = GetComponent<Text>();
-
-        StartCoroutine(FadeInOut());
     }
 
-    private IEnumerator FadeInOut()
+    public void FadeText(float start, float end)
     {
-        while (true)
-        {
-            yield return StartCoroutine(Fade(1, 0.2f));
-
-            yield return StartCoroutine(Fade(0.2f, 1));
-        }
+        StartCoroutine(Fade(start, end));
     }
 
     private IEnumerator Fade(float start, float end)

@@ -33,7 +33,6 @@ public class SocketClient : MonoBehaviour
         socket.On("msgToClient", data =>
         {
             coinDatas.Clear();
-            int i = 0;
             Debug.Log("데이터 전송 완료");
 
             Debug.Log(data);

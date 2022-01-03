@@ -43,9 +43,9 @@ public class PlayerData
     public string name;
     public string email;
     public ulong playerMoney;
-    public ulong clickMoney = 25;
-    public uint automatcIncome = 0;
-    public uint typingSpeed = 1;
+    public ulong clickMoney;
+    public uint automatcIncome;
+    public uint typingSpeed;
     public Dictionary<string, bool> itemDict;
     public Dictionary<string, int> coinDict;
 }

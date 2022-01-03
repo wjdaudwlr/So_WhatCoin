@@ -65,7 +65,6 @@ public class UIManager : MonoBehaviour
 
     private void InitProfile()
     {
-        int profileImageNum = 0;
         myInformationText.text = "<size=50> ¿Ã∏ß : " +
             string.Format("{0:n0}", GameManager.Instance.player.playerData.name) + "</size>\n\n<size=45> µ∑ : " +
             string.Format("{0:n0}", GameManager.Instance.player.playerData.playerMoney) + "</size>\n\n≈Õƒ° ¥Á ∞ÒµÂ : " +
@@ -77,9 +76,10 @@ public class UIManager : MonoBehaviour
             if (GameManager.Instance.player.playerData.itemDict[key])
             {
                 Debug.Log(key);
-                profileImages[profileImageNum].SetActive(true);
+                Item item = GameManager.Instance.itemMap[key];
+                
+                profileImages[item.number].SetActive(true);
             }
-            profileImageNum++;
         }
     }
 }

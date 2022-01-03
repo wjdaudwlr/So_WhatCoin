@@ -20,11 +20,25 @@ public class NetworkManager : MonoBehaviour
     public GameObject signupPanel;
 
     public static string playerdata;
+    string playerEmail, playerPassword;
     public Text stateText;
+
+    public void Start()
+    {
+        playerEmail = PlayerPrefs.GetString("playerEmail");
+        playerPassword = PlayerPrefs.GetString("playerPassword");
+
+        Debug.Log("playerEmail : " + playerEmail + "\nplayerPassword : " + playerPassword);
+
+        if (playerEmail != null && playerPassword != null)
+        {
+            StartCoroutine(DataPost(playerEmail, playerPassword));
+        }
+    }
 
     public void Login()
     {
-        StartCoroutine(DataPost());
+        StartCoroutine(DataPost(loginEmailInputField.text, loginPsswordInputField.text));
     }
 
     public void SignUp()
@@ -32,21 +46,25 @@ public class NetworkManager : MonoBehaviour
         StartCoroutine(DataPostSignUp());
     }
 
-    IEnumerator DataPost()
+    IEnumerator DataPost(string email, string password)
     {
         string url = "http://10.120.74.70:3001/auth/login";
 
         WWWForm form = new WWWForm();
-        form.AddField("email", loginEmailInputField.text);
-        form.AddField("password", loginPsswordInputField.text);
+        form.AddField("email", email);
+        form.AddField("password", password);
         UnityWebRequest www = UnityWebRequest.Post(url, form);
 
         Debug.Log("1");
         yield return www.SendWebRequest(); // 응답이 올때까지 기다린다
 
+      
+
         if (www.isNetworkError)
         {
             Debug.Log(www.error);
+            stateText.text = "로그인 실패";
+            stateText.GetComponent<FadeEffect>().FadeText(1, 0);
         }
         else if(www.downloadHandler.text != "false")
         {
@@ -54,7 +72,15 @@ public class NetworkManager : MonoBehaviour
 
             playerdata = www.downloadHandler.text;
 
+            PlayerPrefs.SetString("playerEmail", email);
+            PlayerPrefs.SetString("playerPassword", password);
+
             LoadingSceneController.LoadScene("GameScene");
+        }
+        else if(www.downloadHandler.text == "false")
+        {
+            stateText.text = "로그인 실패";
+            stateText.GetComponent<FadeEffect>().FadeText(1, 0);
         }
     }
 
@@ -77,51 +103,31 @@ public class NetworkManager : MonoBehaviour
         if (www.isNetworkError)
         {
             Debug.Log(www.error);
+            stateText.text = "회원가입 실패";
+            stateText.GetComponent<FadeEffect>().FadeText(1, 0);
         }
         else if (www.downloadHandler.text != "false")
         {
             Debug.Log(www.downloadHandler);
             if (www.downloadHandler.text == "true") {
                 stateText.text = "회원가입 성공";
+                stateText.GetComponent<FadeEffect>().FadeText(1, 0);
+                signupEmailInputField.text = null;
+                signupPsswordInputField.text = null;
+                signupNameInputField.text = null;
                 SignUpOnOff();
             }
             else
             {
                 stateText.text = "회원가입 실패";
+                stateText.GetComponent<FadeEffect>().FadeText(1, 0);
+                signupEmailInputField.text = null;
+                signupPsswordInputField.text = null;
+                signupNameInputField.text = null;
             }
         }
     }
 
-    IEnumerator DataPostSave()
-    {
-        string url = "http://10.120.74.70:3001/auth/save";
-        string jsonData = JsonConvert.SerializeObject(playerdata);
-
-        WWWForm form = new WWWForm();
-
-        form.AddField("userdata", jsonData);
-
-        UnityWebRequest www = UnityWebRequest.Post(url, form);
-
-        Debug.Log("1");
-        yield return www.SendWebRequest(); // 응답이 올때까지 기다린다
-
-
-        if (www.isNetworkError)
-        {
-            Debug.Log(www.error);
-        }
-        else if (www.downloadHandler.text != "false")
-        {
-            Debug.Log("성공");
-        }
-    }
-
-
-    void OnApplicationQuit()
-    {
-        StartCoroutine(DataPostSave());
-    }
 
 
     public void SignUpOnOff()
