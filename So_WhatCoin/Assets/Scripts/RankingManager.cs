@@ -7,23 +7,31 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-public class RankingManager : MonoBehaviour
+public class RankingManager : SkillCoolTime
 {
     public Text[] nameText;
     public Text[] moneyText;
 
     public List<RankingData> rankingDatas = new List<RankingData>();
 
+    float resetTime = 0;
+
     public void Start()
+    {
+        ResetRanking();
+    }
+
+
+    public override void Skill()
     {
         ResetRanking();
     }
 
     public void ResetRanking()
     {
-        StartCoroutine(DataPost());
+        StartCoroutine(GameManager.Instance.DataPostSave());
 
-        
+        StartCoroutine(DataPost());
     }
 
     IEnumerator DataPost()
@@ -31,7 +39,9 @@ public class RankingManager : MonoBehaviour
         string url = "http://10.120.74.70:3001/rank";
 
         WWWForm form = new WWWForm();
-     
+
+        yield return new WaitForSeconds(1.5f);
+
         UnityWebRequest www = UnityWebRequest.Get(url);
 
         Debug.Log("1");
@@ -66,11 +76,11 @@ public class RankingManager : MonoBehaviour
             
             foreach (var item in rankingDatas)
             {
-                if (i <= 20)
+                if (i <= 19)
                 {
                     Debug.Log("name : " + item.name + "      money : " + item.money);
                     nameText[i].text = item.name;
-                    moneyText[i].text = item.money.ToString();
+                    moneyText[i].text = Money.ToString(item.money);
                 }
                 i++;
             }

@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
     private ulong typingSpeedUpgradeMoney;
 
     float automatcIncomeTime = 0;
-    float saveTiem = 0;
 
     public static GameManager Instance;     // ½Ì±ÛÅæ
 
@@ -71,13 +70,6 @@ public class GameManager : MonoBehaviour
         {
             player.playerData.playerMoney += player.playerData.automatcIncome; 
             automatcIncomeTime = 0;
-            saveTiem += 1;
-        }
-        if(saveTiem >= 60)
-        {
-            StartCoroutine(DataPostSave());
-            saveTiem = 0;
-            Debug.Log("Save");
         }
 
         playerMoneyText.text = Money.ToString(player.playerData.playerMoney);
@@ -210,7 +202,7 @@ public class GameManager : MonoBehaviour
         Quit();
     }
 
-    IEnumerator DataPostSave()
+    public IEnumerator DataPostSave()
     {
         string url = "http://10.120.74.70:3001/auth/save";
         string jsonData = JsonConvert.SerializeObject(player.playerData);
