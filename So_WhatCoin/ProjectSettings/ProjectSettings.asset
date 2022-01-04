@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Coin
   productName: SoWhatCoin
-  defaultCursor: {fileID: 2800000, guid: 4a76843249f35f444b229a3c57c411d2, type: 3}
+  defaultCursor: {fileID: 2800000, guid: 29f6d3452508f5b449490340eba68186, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
@@ -262,7 +262,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 4a76843249f35f444b229a3c57c411d2, type: 3}
+      m_Icon: {fileID: 2800000, guid: 29f6d3452508f5b449490340eba68186, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0

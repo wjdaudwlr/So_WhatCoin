@@ -35,21 +35,17 @@ public class SocketClient : MonoBehaviour
             coinDatas.Clear();
             Debug.Log("데이터 전송 완료");
 
-            Debug.Log(data);
 
             JObject parseObj = new JObject();
 
             parseObj = JObject.Parse(data.ToString());
 
-            Debug.Log(parseObj);
             JArray jArray = new JArray();
             jArray = JArray.Parse(parseObj["data"].ToString());
 
             Debug.Log(jArray);
             foreach (JObject jo in jArray)
             {
-                Debug.Log(jo);
-
                 CoinData obj = new CoinData();
 
                 obj.id = System.Int32.Parse(jo["id"].ToString());

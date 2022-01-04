@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     private ulong typingSpeedUpgradeMoney;
 
     float automatcIncomeTime = 0;
+    float saveTiem = 0;
 
     public static GameManager Instance;     // ½Ì±ÛÅæ
 
@@ -64,12 +65,21 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        
         automatcIncomeTime += Time.deltaTime;
         if(automatcIncomeTime >= 1)
         {
             player.playerData.playerMoney += player.playerData.automatcIncome; 
             automatcIncomeTime = 0;
+            saveTiem += 1;
         }
+        if(saveTiem >= 60)
+        {
+            StartCoroutine(DataPostSave());
+            saveTiem = 0;
+            Debug.Log("Save");
+        }
+
         playerMoneyText.text = Money.ToString(player.playerData.playerMoney);
 
         if(Application.platform == RuntimePlatform.Android)
@@ -84,7 +94,7 @@ public class GameManager : MonoBehaviour
     private void InitTypingSpeedUpgrade()
     {
         typingSpeedUpgradeCost = 1000;
-        typingSpeedUpgradeMoney = 15;
+        typingSpeedUpgradeMoney = 10;
 
         typingSpeedLevelText.text = "Lvl " + player.playerData.typingSpeed;
         for(int i = 1; i< player.playerData.typingSpeed; i++)
@@ -158,7 +168,7 @@ public class GameManager : MonoBehaviour
         itemMap.Add("monsta", items[1].GetComponent<Item>());
         itemMap.Add("doge", items[2].GetComponent<Item>());
         itemMap.Add("keyboard", items[3].GetComponent<Item>());
-        itemMap.Add("statikk", items[4].GetComponent<Item>());
+        itemMap.Add("statik", items[4].GetComponent<Item>());
         itemMap.Add("speaker", items[5].GetComponent<Item>());
         itemMap.Add("gay", items[6].GetComponent<Item>());
         itemMap.Add("ekko", items[7].GetComponent<Item>());

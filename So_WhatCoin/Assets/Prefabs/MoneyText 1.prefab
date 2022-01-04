@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1331508418930433869}
   - component: {fileID: 1331508418930433870}
   - component: {fileID: 1331508418930433871}
-  - component: {fileID: 1331508418930433864}
+  - component: {fileID: 545795258201011528}
   m_Layer: 0
-  m_Name: MoneyText
+  m_Name: MoneyText 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.63, y: 3.96}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -1.59, y: 3.61}
+  m_SizeDelta: {x: 5, y: 1.5}
   m_Pivot: {x: 0.5, y: 1.0000001}
 --- !u!23 &1331508418930433870
 MeshRenderer:
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4278255103
-  m_fontColor: {r: 0.9702039, g: 1, b: 0, a: 1}
+  m_fontColor: {r: 1, g: 0.9929241, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 2.8
-  m_fontSizeBase: 2.8
+  m_fontSize: 4
+  m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -1.6184518, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -171,7 +171,7 @@ MonoBehaviour:
   _SortingLayer: 0
   _SortingLayerID: 0
   _SortingOrder: 0
---- !u!114 &1331508418930433864
+--- !u!114 &545795258201011528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,11 +180,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1331508418930433865}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be8ea5e3effbf514da0fc62962e243fd, type: 3}
+  m_Script: {fileID: 11500000, guid: e24221b97ed5cfb4880e6bbf03cf98da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
   alphaSpeed: 1
   destroyTime: 1.5
   text: {fileID: 0}
-  money: 1515
+  money: 0

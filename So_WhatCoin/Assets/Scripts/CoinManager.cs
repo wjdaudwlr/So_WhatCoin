@@ -19,8 +19,15 @@ public class CoinManager : MonoBehaviour
     private Text coinNameText;
     [SerializeField]
     private Text coinPriceText;
+    [SerializeField]
+    Text curCoinQuantityText;
+    [SerializeField]
+    private GameObject clickMoneyText;
+    private ClickMoneyText2 clickMoneyTextCom;
+    [SerializeField]
+    private Transform clickPos;
 
-    ulong[] purchasedPrice = new ulong[16];
+    ulong[] purchasedPrice = new ulong[17];
 
     public InputField coinInputField;
 
@@ -99,6 +106,7 @@ public class CoinManager : MonoBehaviour
         purchasedPriceText.text = "구매한 가격 : " + string.Format("{0:n0}", purchasedPrice[coin.number]);
 
         coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
+        CoinPurchaseSaleText(coin.price * coinInput, new Color(255,0,0));
     }
 
     public void CoinSale()
@@ -117,10 +125,50 @@ public class CoinManager : MonoBehaviour
         GameManager.Instance.player.playerData.playerMoney += coin.price * coinInput;
 
         coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
+        CoinPurchaseSaleText(coin.price * coinInput,new Color(151,255,0));
+
     }
+
+    public void CoinAllSale()
+    {
+        Coin coin = coinMap[currentCoinName];
+
+        int num = GameManager.Instance.player.playerData.coinDict[currentCoinName];
+        Debug.Log(num);
+
+        GameManager.Instance.player.playerData.coinDict[currentCoinName] -= (int)num;
+        GameManager.Instance.player.playerData.playerMoney += coin.price * (ulong)num;
+
+        curCoinQuantityText.text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
+        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
+        purchasedPriceText.text = "구매한 가격 : " + 0;
+        CoinPurchaseSaleText(coin.price * (ulong)num, new Color(151, 255, 0));
+    }
+
+    public void CoinAllPurchase()
+    {
+        Coin coin = coinMap[currentCoinName];
+
+        ulong num = GameManager.Instance.player.playerData.playerMoney / coin.price;
+        Debug.Log(num);
+
+        GameManager.Instance.player.playerData.coinDict[currentCoinName] += (int)num;
+        GameManager.Instance.player.playerData.playerMoney -= coin.price * num;
+
+        purchasedPrice[coin.number] = coin.price;
+        purchasedPriceText.text = "구매한 가격 : " + string.Format("{0:n0}", purchasedPrice[coin.number]);
+
+        curCoinQuantityText.text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
+        coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
+        CoinPurchaseSaleText(coin.price * num,new Color(255,0,0));
+
+    }
+
 
     public void CoinTransactionPanelOnOff(string coinName)
     {
+        if (socketClient.coinDatas.Count == 0) return;
+
         if (coinTransactionPanel.activeSelf) coinTransactionPanel.SetActive(false);
         else coinTransactionPanel.SetActive(true);
 
@@ -130,7 +178,7 @@ public class CoinManager : MonoBehaviour
         Coin coin = coinMap[coinName];
 
         purchasedPriceText.text = "구매한 가격 : " + string.Format("{0:n0}", purchasedPrice[coin.number]);
-
+        curCoinQuantityText.text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
         CoinNameTranslation(coinName);
     }
 
@@ -191,9 +239,20 @@ public class CoinManager : MonoBehaviour
             case "studentcouncilcoin":
                 coinNameText.text = "학생회 코인";
                 break;
+            case "eunyoungcoin":
+                coinNameText.text = "여신은영 코인";
+                break;
         }
     }
 
-
+    void CoinPurchaseSaleText(ulong text,Color color)
+    {
+        GameObject moneyText = Instantiate(clickMoneyText);
+        moneyText.transform.position = clickPos.position;
+        clickMoneyTextCom = moneyText.GetComponent<ClickMoneyText2>();
+        clickMoneyTextCom.SetUp();
+        clickMoneyTextCom.text.color = color;
+        clickMoneyTextCom.money = text;
+    }
 
 }

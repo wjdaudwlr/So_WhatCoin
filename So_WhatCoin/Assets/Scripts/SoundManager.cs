@@ -44,7 +44,7 @@ public class SoundManager : MonoBehaviour
             bgSound.Stop();
         bgSound.clip = bgClips[clip];
         bgSound.loop = true;
-        bgSound.volume = 0.3f;
+        bgSound.volume = 0.45f;
         bgSound.Play();
     }
 }
