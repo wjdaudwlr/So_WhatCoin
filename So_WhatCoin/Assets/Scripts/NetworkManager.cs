@@ -48,7 +48,7 @@ public class NetworkManager : MonoBehaviour
 
     IEnumerator DataPost(string email, string password)
     {
-        string url = "http://10.120.74.70:3001/auth/login";
+        string url = "http://louis7308.iptime.org:3001/auth/login";
 
         WWWForm form = new WWWForm();
         form.AddField("email", email);
@@ -86,7 +86,7 @@ public class NetworkManager : MonoBehaviour
 
     IEnumerator DataPostSignUp()
     {
-        string url = "http://10.120.74.70:3001/auth/signup";
+        string url = "http://louis7308.iptime.org:3001/auth/signup";
 
         WWWForm form = new WWWForm();
 

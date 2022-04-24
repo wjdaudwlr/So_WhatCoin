@@ -1,1 +1,31 @@
-{"name":"aaa","email":"aaa@aaa.a","playerMoney":1308269,"clickMoney":4778,"automatcIncome":0,"typingSpeed":53,"itemDict":{"forg":false,"monsta":false,"doge":false,"keyboard":false,"statik":false,"speaker":false,"gay":false,"ekko":false,"gram":false},"coinDict":{"kimdongdong":0,"whattodocoin":0,"gsmcoin":0,"choigangmincoin":0,"gemgaejiyecoin":0,"hyeonttungcoin":0,"ijuncoin":0,"eunseongcoin":0,"jjunjjunacoin":0,"sihuncoin":0,"haembeogseungmincoin":0,"yusiopeucoin":0,"geonucoin":0,"manghaessseonghuncoin":0}}
+{
+  "name": "aaa",
+  "email": "aaa@aaa.a",
+  "playerMoney": 1308269,
+  "clickMoney": 4778,
+  "automatcIncome": 0,
+  "typingSpeed": 53,
+  "itemDict": {
+    "forg": false,
+    "monsta": false,
+    "doge": false,
+    "keyboard": false,
+    "statik": false,
+    "speaker": false,
+    "gay": false,
+    "ekko": false,
+    "gram": false
+  },
+  "coinDict": {
+    "onegradecoin": 0,
+    "twogradecoin": 0,
+    "threegradecoin": 0,
+    "gameclubcoin": 0,
+    "cloudclubcoin": 0,
+    "securityclubcoin": 0,
+    "roboticsclubcoin": 0,
+    "networkclubcoin": 0,
+    "healthcoin": 0,
+    "gsmcoin": 0
+  }
+}

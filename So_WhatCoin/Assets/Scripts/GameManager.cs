@@ -34,6 +34,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject backPanel;
 
+    [Header("Sound")]
+    [SerializeField]
+    private AudioClip itemClip;
+    [SerializeField]
+    private AudioClip upgradeClip;
+
     private ulong typingSpeedUpgradeCost;
     private ulong typingSpeedUpgradeMoney;
 
@@ -95,6 +101,7 @@ public class GameManager : MonoBehaviour
             typingSpeedUpgradeMoney += 3;
         }
         typingSpeedUpgradeCostText.text = $"<size=32>" + string.Format("{0:n0}", typingSpeedUpgradeCost) + " 원</size>\n\n+ " + string.Format("{0:n0}", typingSpeedUpgradeMoney) + "GOLD";
+
     }
 
     private void InitItem()
@@ -135,6 +142,7 @@ public class GameManager : MonoBehaviour
         typingSpeedLevelText.text = "Lvl " + player.playerData.typingSpeed;
 
         typingSpeedUpgradeCostText.text = $"<size=32>" + string.Format("{0:n0}", typingSpeedUpgradeCost) +  " 원</size>\n\n+ " + string.Format("{0:n0}", typingSpeedUpgradeMoney) +  "GOLD";
+        SoundManager.instance.SFXPlay("upgrade", upgradeClip);
     }
 
     public void ItemPurchase(string itemName)   
@@ -149,6 +157,7 @@ public class GameManager : MonoBehaviour
         itemPurchaseButton[item.number].interactable = false;
         itemPurchaseButton[item.number].gameObject.GetComponentInChildren<Text>().text = "<size=50>구매완료</size>";
         player.playerData.itemDict[itemName] = true;
+        SoundManager.instance.SFXPlay("item", itemClip);
         ShakeCamera.Instance.OnShakeCamera(0.2f, 0.07f);
         InitSkill();
     }
@@ -204,7 +213,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator DataPostSave()
     {
-        string url = "http://10.120.74.70:3001/auth/save";
+        string url = "http://louis7308.iptime.org:3001/auth/save";
         string jsonData = JsonConvert.SerializeObject(player.playerData);
 
         WWWForm form = new WWWForm();

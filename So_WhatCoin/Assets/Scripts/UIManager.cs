@@ -23,7 +23,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject[] profileImages;
 
-    
+    [Header("Sound")]
+    [SerializeField]
+    private AudioClip btnClickClip;
 
     int currentMenuNum;                 // 현재 메뉴 번호
 
@@ -47,6 +49,8 @@ public class UIManager : MonoBehaviour
         
 
         currentMenuNum = clickButtonNum;
+
+        SoundManager.instance.SFXPlay("btnClickSound", btnClickClip);
     }
 
     public void UI_appear(GameObject obj)
@@ -56,11 +60,13 @@ public class UIManager : MonoBehaviour
         InitProfile();
         obj.SetActive(true);
         UI_queue.Enqueue(obj);
+        SoundManager.instance.SFXPlay("btnClickSound", btnClickClip);
     }
     public void UI_disappear()
     {
         GameObject obj = UI_queue.Dequeue();
         obj.SetActive(false);
+        SoundManager.instance.SFXPlay("btnClickSound", btnClickClip);
     }
 
     private void InitProfile()

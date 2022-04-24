@@ -14,7 +14,7 @@ public class SocketClient : MonoBehaviour
 
     private void Start()
     {
-        socket = IO.Socket("ws://222.238.250.160:8080/ws");
+        socket = IO.Socket("http://louis7308.iptime.org:3001/");
 
         socket.On(QSocket.EVENT_CONNECT, () =>
         {

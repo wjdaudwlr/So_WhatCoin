@@ -36,7 +36,7 @@ public class RankingManager : SkillCoolTime
 
     IEnumerator DataPost()
     {
-        string url = "http://10.120.74.70:3001/rank";
+        string url = "http://louis7308.iptime.org:3001/rank";
 
         WWWForm form = new WWWForm();
 

@@ -37,25 +37,21 @@ public class CoinManager : MonoBehaviour
 
     string currentCoinName;
 
+    [Header("Sound")]
+    [SerializeField]
+    private AudioClip coinClip;
     private void Awake()
     {
-        coinMap.Add("kimdongdongcoin", new Coin("kimdongdongcoin", 99999999999, 0));
-        coinMap.Add("whattodocoin", new Coin("whattodocoin", 99999999999, 1));
-        coinMap.Add("gsmcoin", new Coin("gsmcoin", 99999999999, 2));
-        coinMap.Add("choigangmincoin", new Coin("choigangmincoin", 99999999999, 3));
-        coinMap.Add("gemgaejiyecoin", new Coin("gemgaejiyecoin", 99999999999, 4));
-        coinMap.Add("hyeonttungcoin", new Coin("hyeonttungcoin", 99999999999, 5));
-        coinMap.Add("ijuncoin", new Coin("ijuncoin", 99999999999, 6));
-        coinMap.Add("eunseongcoin", new Coin("eunseongcoin", 99999999999, 7));
-        coinMap.Add("jjunjjunacoin", new Coin("jjunjjunacoin", 99999999999, 8));
-        coinMap.Add("sihuncoin", new Coin("sihuncoin", 99999999999, 9));
-        coinMap.Add("haembeogseungmincoin", new Coin("haembeogseungmincoin", 99999999999, 10));
-        coinMap.Add("yusiopeucoin", new Coin("yusiopeucoin", 99999999999, 11));
-        coinMap.Add("geonucoin", new Coin("geonucoin", 99999999999, 12));
-        coinMap.Add("manghaessseonghuncoin", new Coin("manghaessseonghuncoin", 99999999999, 13));
-        coinMap.Add("chanwoocoin", new Coin("chanwoocoin", 99999999999, 14));
-        coinMap.Add("studentcouncilcoin", new Coin("studentcouncilcoin", 99999999999, 15));
-        coinMap.Add("eunyoungcoin", new Coin("eunyoungcoin", 99999999999, 16));
+        coinMap.Add("onegradecoin", new Coin("onegradecoin", 99999999999, 0));
+        coinMap.Add("twogradecoin", new Coin("twogradecoin", 99999999999, 1));
+        coinMap.Add("threegradecoin", new Coin("threegradecoin", 99999999999, 2));
+        coinMap.Add("gameclubcoin", new Coin("gameclubcoin", 99999999999, 3));
+        coinMap.Add("cloudclubcoin", new Coin("cloudclubcoin", 99999999999, 4));
+        coinMap.Add("securityclubcoin", new Coin("securityclubcoin", 99999999999, 5));
+        coinMap.Add("roboticsclubcoin", new Coin("roboticsclubcoin", 99999999999, 6));
+        coinMap.Add("networkclubcoin", new Coin("networkclubcoin", 99999999999, 7));
+        coinMap.Add("healthcoin", new Coin("healthcoin", 99999999999, 8));
+        coinMap.Add("gsmcoin", new Coin("gsmcoin", 99999999999, 9));
     }
 
 
@@ -107,6 +103,8 @@ public class CoinManager : MonoBehaviour
 
         coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
         CoinPurchaseSaleText(coin.price * coinInput, new Color(255,0,0));
+
+        SoundManager.instance.SFXPlay("coin", coinClip);
     }
 
     public void CoinSale()
@@ -127,6 +125,7 @@ public class CoinManager : MonoBehaviour
         coinQuantityText[coin.number].text = "보유 : " + string.Format("{0:n0}", GameManager.Instance.player.playerData.coinDict[currentCoinName]);
         CoinPurchaseSaleText(coin.price * coinInput,new Color(151,255,0));
 
+        SoundManager.instance.SFXPlay("coin", coinClip);
     }
 
     public void CoinAllSale()
@@ -191,56 +190,35 @@ public class CoinManager : MonoBehaviour
     {
         switch (coinName)
         {
-            case "kimdongdongcoin":
-                coinNameText.text = "김동동 코인";
+            case "onegradecoin":
+                coinNameText.text = "1학년 코인";
                 break;
-            case "whattodocoin":
-                coinNameText.text = "어쩔코인 코인";
+            case "twogradecoin":
+                coinNameText.text = "2학년 코인";
+                break;
+            case "threegradecoin":
+                coinNameText.text = "3학년 코인";
+                break;
+            case "gameclubcoin":
+                coinNameText.text = "게임개발 코인";
+                break;
+            case "cloudclubcoin":
+                coinNameText.text = "클라우드 코인";
+                break;
+            case "securityclubcoin":
+                coinNameText.text = "정보보안 코인";
+                break;
+            case "roboticsclubcoin":
+                coinNameText.text = "로보틱스 코인";
+                break;
+            case "networkclubcoin":
+                coinNameText.text = "네트워크 코인";
+                break;
+            case "healthcoin":
+                coinNameText.text = "체력단련 코인";
                 break;
             case "gsmcoin":
                 coinNameText.text = "GSM 코인";
-                break;
-            case "choigangmincoin":
-                coinNameText.text = "초이강민 코인";
-                break;
-            case "gemgaejiyecoin":
-                coinNameText.text = "겜개지예 코인";
-                break;
-            case "hyeonttungcoin":
-                coinNameText.text = "현뚱 코인";
-                break;
-            case "ijuncoin":
-                coinNameText.text = "이준 코인";
-                break;
-            case "eunseongcoin":
-                coinNameText.text = "흑마법사 코인";
-                break;
-            case "jjunjjunacoin":
-                coinNameText.text = "쭌쭈나 코인";
-                break;
-            case "sihuncoin":
-                coinNameText.text = "시훈 코인";
-                break;
-            case "haembeogseungmincoin":
-                coinNameText.text = "햄벅승민 코인";
-                break;
-            case "yusiopeucoin":
-                coinNameText.text = "유시오프 코인";
-                break;
-            case "geonucoin":
-                coinNameText.text = "건우 코인";
-                break;
-            case "manghaessseonghuncoin":
-                coinNameText.text = "망했성훈 코인";
-                break;
-            case "chanwoocoin":
-                coinNameText.text = "프란또찬우 코인";
-                break;
-            case "studentcouncilcoin":
-                coinNameText.text = "학생회 코인";
-                break;
-            case "eunyoungcoin":
-                coinNameText.text = "여신은영 코인";
                 break;
         }
     }

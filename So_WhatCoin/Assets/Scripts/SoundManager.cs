@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Audio;
 public class SoundManager : MonoBehaviour
 {
+    [SerializeField]
+    private AudioMixer mixer;
+
     public AudioSource bgSound;
 
     public AudioClip[] bgClips;
@@ -31,6 +34,7 @@ public class SoundManager : MonoBehaviour
     {
         GameObject go = new GameObject(sfxName + "Sound");
         AudioSource audiosource = go.AddComponent<AudioSource>();
+        audiosource.outputAudioMixerGroup = mixer.FindMatchingGroups("SFX")[0];
 
         audiosource.clip = clip;
         audiosource.Play();
